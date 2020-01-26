@@ -1,18 +1,35 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <LegalTerm v-bind:legals="legals" />
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import LegalTerm from './components/LegalTerm';
 
 export default {
   name: 'app',
   components: {
-    HelloWorld
-  }
+    LegalTerm
+  },
+  data() {
+    return {
+      legals: [
+        {
+            number : 1,
+            description : 'Hello'
+        },
+        {
+            number : 2,
+            description : 'Games'
+        },
+        {
+            number : 3,
+            description : 'World'
+        },
+      ]
+    }
+  },  
 }
 </script>
 
