@@ -1,31 +1,32 @@
 <template>
   <div id="app">
-    <LegalTerm v-bind:legals="legals" />
+      <router-view />
   </div>
 </template>
 
 <script>
-import LegalTerm from './components/LegalTerm';
+//import LegalTerm from './components/LegalTerm';
 
 export default {
   name: 'app',
   components: {
-    LegalTerm
   },
   data() {
     return {
       legals: [
         {
+            id : "5e2faa1e955fc8096227fee1",
             number : 1,
-            description : 'Hello'
+            content : 'Hello nfbkjfbjfbzejfbajfbajfbazjofbazjfazojfbazofbazofbazbfl \n fezkhfoehf \n fiaubfuiaofnabdkjzbjdbzaljdbazljdblazjbdlazbldzbkabkdazbvksgesgfuoegfoezgofze zalbfjlzabdlazbdlazbdlazjbdlazbldlazdjazbdlazjda'
         },
         {
+            id: '5e2faa1e955fc8096227fee1',
             number : 2,
-            description : 'Games'
+            content : 'Games'
         },
         {
             number : 3,
-            description : 'World'
+            content : 'World'
         },
       ]
     }
