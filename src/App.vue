@@ -11,26 +11,6 @@ export default {
   name: 'app',
   components: {
   },
-  data() {
-    return {
-      legals: [
-        {
-            id : "5e2faa1e955fc8096227fee1",
-            number : 1,
-            content : 'Hello nfbkjfbjfbzejfbajfbajfbazjofbazjfazojfbazofbazofbazbfl \n fezkhfoehf \n fiaubfuiaofnabdkjzbjdbzaljdbazljdblazjbdlazbldzbkabkdazbvksgesgfuoegfoezgofze zalbfjlzabdlazbdlazbdlazjbdlazbldlazdjazbdlazjda'
-        },
-        {
-            id: '5e2faa1e955fc8096227fee1',
-            number : 2,
-            content : 'Games'
-        },
-        {
-            number : 3,
-            content : 'World'
-        },
-      ]
-    }
-  },  
 }
 </script>
 

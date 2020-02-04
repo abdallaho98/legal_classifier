@@ -21,6 +21,7 @@
 <script>
 
 import axios from 'axios'
+import firebase from 'firebase'
 
 export default {
       name: 'ClassifyScreen',
@@ -62,12 +63,11 @@ export default {
         },
         sendAnswer : function(){
             axios.post('http://localhost:3000/legal/answer',{
-                email : 'abdallaho98@hotmail.fr',
+                email : firebase.auth().currentUser.email,
                 answer : Number(this.selectedItem) ,
                 id : this.legal._id ,
             }).then((response) => {
-                alert ('answered')
-                window.console.log(response)
+                window.console.log(response.data)
                 this.$router.go(-1)
             }).catch(err => alert(err))
         },

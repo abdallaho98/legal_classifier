@@ -55,10 +55,10 @@ export default {
       },
       data: function() {
           return{
-             marked: 'https://i.ibb.co/dM333b0/check.png',
-             unmarked: 'https://i.ibb.co/CKXdZCQ/close.png'
+            marked: 'https://i.ibb.co/dM333b0/check.png',
+            unmarked: 'https://i.ibb.co/CKXdZCQ/close.png'
           }
-      }
+      },
 }
 </script>
 <style scoped>

@@ -1,7 +1,12 @@
 <template>
     <div>
-        <vue-csv-import :catch="error" :callback="reload" :headers="true" url="http://localhost:3000/legal/addall" :map-fields="{content: 'content', number: 'number' , type : 'type'}"></vue-csv-import>
-        <input @change="tag" class="search" placeholder="البحث عن طريق كلمات مفتاحية">
+        <div class="left">
+            <vue-csv-import :catch="error" :callback="reload" :headers="true" url="http://localhost:3000/legal/addall" :map-fields="{content: 'content', number: 'number' , type : 'type'}"></vue-csv-import>
+        </div>
+        <div class="right">
+            <button @click="stats" class="button" style="vertical-align:middle"><span>الاحصائيات </span></button>
+        </div>
+         <input @change="tag" class="search" placeholder="البحث عن طريق كلمات مفتاحية">
         <div  v-bind:key="legal.id" v-for="legal in data">
             <LegalItem v-bind:legal="legal"/>
         </div>
@@ -12,6 +17,8 @@
 import LegalItem from './LegalItem'
 import axios from 'axios'
 import { VueCsvImport } from 'vue-csv-import'
+import firebase from 'firebase'
+import {config} from '../helpers/firebaseConfig'
 
 export default {
      name: 'LegalTerm',
@@ -24,6 +31,20 @@ export default {
             data: null
         }
      },
+     created() {
+        firebase.initializeApp(config);
+        firebase.auth().onAuthStateChanged(user =>  {
+            if (user) {
+                axios.post('http://localhost:3000/users/register',{
+                    email : firebase.auth().currentUser.email,
+                }).then((response) => {
+                    window.console.log(response.data)
+                }).catch(err => alert(err))
+            } else {
+                this.$router.push( { path : '/auth' ,name : 'auth'})
+            }
+        });
+    },
      mounted(){
         axios.get('http://localhost:3000/legal/').then((response) => {
             this.data = response.data.legals ; 
@@ -41,6 +62,9 @@ export default {
         },
         error : function (){
             alert ('error')
+        },
+        stats : function(){
+              this.$router.push( { path : '/stats' ,name : 'stats'})
         }
      }
 }
@@ -67,6 +91,38 @@ export default {
         display: inline-block;
         padding: 6px 12px;
         cursor: pointer;
+    }
+
+    .button {
+        box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2);
+        transition: 0.3s;
+        z-index: 7;
+        display: inline-block;
+        border-radius: 4px;
+        background-color: #ffffff;
+        border: none;
+        color: #000000;
+        text-align: center;
+        font-size: 28px;
+        padding: 20px;
+        width: 200px;
+        transition: all 0.5s;
+        cursor: pointer;
+        margin: 5px;
+    }
+
+    .left {
+        float: left; 
+        width: 50%;
+        text-align: center;
+        align-items: center;
+    }
+
+    .right {
+        padding-right: 100px;
+        float: right; 
+        width: 50%;
+        text-align: right;
     }
 
 
