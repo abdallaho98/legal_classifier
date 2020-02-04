@@ -1,5 +1,6 @@
 <template>
     <div>
+        <vue-csv-import url="http://localhost:3000/legal/addall" :map-fields="{content: 'content', number: 'number' , type : 'type'}"></vue-csv-import>
         <input @change="tag" class="search" placeholder="البحث عن طريق كلمات مفتاحية">
         <div  v-bind:key="legal.id" v-for="legal in data">
             <LegalItem v-bind:legal="legal"/>
@@ -8,14 +9,15 @@
 </template>
 
 <script>
-import LegalItem from './LegalItem';
+import LegalItem from './LegalItem'
 import axios from 'axios'
+import { VueCsvImport } from 'vue-csv-import'
 
 export default {
      name: 'LegalTerm',
      props: ['legals'],
      components:{
-         LegalItem
+         LegalItem , VueCsvImport
      },
      data: function () {
         return {
@@ -52,6 +54,13 @@ export default {
         text-align: right;
         padding: 16px 32px 16px 32px;
         margin: 32px 32px 32px 32px;
+    }
+
+    .custom-file-upload {
+        border: 1px solid #ccc;
+        display: inline-block;
+        padding: 6px 12px;
+        cursor: pointer;
     }
 
 
