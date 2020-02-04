@@ -25,7 +25,7 @@ export default {
         type: function(i){
             switch(i){
                 case 1 : return 'القانون المدني';
-                case 2 : return 'قانون الإجراءات الـمدنية والإدارية';
+                case 2 : return 'قانون الإجراءات المدنية والإدارية';
                 case 3 : return 'القانون التجاري';
                 case 4 : return 'قانون الأسرة';
                 case 5 : return 'قانون الجنسية الجزائرية';
