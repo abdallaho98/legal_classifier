@@ -1,6 +1,6 @@
 <template>
     <div>
-        <vue-csv-import url="http://localhost:3000/legal/addall" :map-fields="{content: 'content', number: 'number' , type : 'type'}"></vue-csv-import>
+        <vue-csv-import :catch="error" :callback="reload" :headers="true" url="http://localhost:3000/legal/addall" :map-fields="{content: 'content', number: 'number' , type : 'type'}"></vue-csv-import>
         <input @change="tag" class="search" placeholder="البحث عن طريق كلمات مفتاحية">
         <div  v-bind:key="legal.id" v-for="legal in data">
             <LegalItem v-bind:legal="legal"/>
@@ -35,6 +35,12 @@ export default {
             axios.get(`http://localhost:3000/legal/?tag=${e.target.value}`).then((response) => {
             this.data = response.data.legals ; 
             }).catch(err => alert(err))
+        },
+        reload: function (){
+            this.$router.go(0)
+        },
+        error : function (){
+            alert ('error')
         }
      }
 }
