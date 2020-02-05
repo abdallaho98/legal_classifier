@@ -6,10 +6,13 @@ import ClassifyScreen from './components/ClassifyScreen'
 import AuthScreen from './components/Auth'
 import StatScreen from './components/Statistics'
 import VueResource from 'vue-resource'
-
+import JsonCSV from 'vue-json-csv'
+ 
  
 Vue.use(VueRouter)
 Vue.use(VueResource)
+Vue.component('downloadCsv', JsonCSV)
+
 
 
 const router = new VueRouter({

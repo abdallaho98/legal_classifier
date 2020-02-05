@@ -1,8 +1,15 @@
 <template>
-    <div class="block align_left">
-        <div v-bind:key="stat.id" v-for="stat in data">
-            <H1 class="right">{{stat.email}}</H1>
-            <H1 class="left">{{stat.nb}}</H1>
+    <div class="all">
+        <download-csv :data="exportCsv"><button class="button">Export Data</button></download-csv>
+        <div class="all"> 
+            <div class="block align_left">
+                <H1 class="right">Email</H1>
+                <H1 class="left">Nb</H1>
+                <div v-bind:key="stat.id" v-for="stat in data">
+                    <H1 class="right">{{stat.email}}</H1>
+                    <H1 class="left">{{stat.nb}}</H1>
+            </div>
+        </div>
         </div>
     </div>
 </template>
@@ -13,12 +20,16 @@ export default {
     name: 'Statistics',
     data: function () {
         return {
-            data: null
+            data: null ,
+            exportCsv: null
         }
      },
     mounted(){
         axios.get('http://localhost:3000/users/statistics').then((response) => {
             this.data = response.data.stats ; 
+            }).catch(err => alert(err))
+        axios.get('http://localhost:3000/legal/export').then((response) => {
+            this.exportCsv = response.data.legals ; 
             }).catch(err => alert(err))
      } ,
 }
@@ -51,6 +62,27 @@ export default {
 
     .align_left{
         float: right;
+    }
+
+    .button {
+        box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2);
+        transition: 0.3s;
+        z-index: 7;
+        display: inline-block;
+        border-radius: 4px;
+        background-color: #ffffff;
+        border: none;
+        color: #000000;
+        text-align: center;
+        font-size: 28px;
+        padding: 20px;
+        width: 200px;
+        transition: all 0.5s;
+        cursor: pointer;
+        margin: 5px;
+    }
+    .all{
+        width: 100%;
     }
 
 </style>
