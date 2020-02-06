@@ -4,6 +4,11 @@
             <h1>{{legal.number}} الماده</h1>
             <h2 class="text">{{legal.content}}</h2> 
             <h2 class="legal-type">{{type(legal.type)}}</h2>
+            <div>
+                <h3 @click="tagger" :id="1" ref="t1" class="legal-tag">{{taggeration(1)}}</h3>
+                <h3 @click="tagger" :id="2" ref="t2" class="legal-tag">{{taggeration(2)}}</h3>
+                <h3 @click="tagger" :id="3" ref="t3" class="legal-tag">{{taggeration(3)}}</h3>
+            </div>
         </div>
         <div>
             <h2 @click="select" :id="1" ref="b1" class="legal-class">{{classfication(1)}}</h2>
@@ -28,7 +33,8 @@ export default {
       data() {
           return {
               predictItem : 0,
-              selectedItem : 1
+              selectedItem : 0,
+              tagItem : 0
           }
       },
        methods : {
@@ -62,6 +68,15 @@ export default {
                 default : return '';
             }
         },
+        taggeration: function(i){
+            switch(i){
+                case 0 : return '';
+                case 1 : return 'معدل';
+                case 2 : return 'ملغى';
+                case 3 : return 'جديد';
+                default : return '';
+            }
+        },
         sendAnswer : function(){
             axios.post('http://localhost:3000/predict/add',{
                 predict : this.predictItem,
@@ -73,6 +88,7 @@ export default {
                     email : firebase.auth().currentUser.email,
                     answer : Number(this.selectedItem) ,
                     id : this.legal._id ,
+                    tag : this.tagItem
                 }).then((response) => {
                     window.console.log(response.data)
                     this.$router.go(-1)
@@ -86,10 +102,22 @@ export default {
 
         select : function(e){
             window.console.log(e)
-            this.$el.querySelector(".legal-select").classList.add('legal-class')
-            this.$el.querySelector('.legal-select').classList.remove('legal-select')
+            if(this.$el.querySelector(".legal-select") != null){
+                this.$el.querySelector(".legal-select").classList.add('legal-class')
+                this.$el.querySelector('.legal-select').classList.remove('legal-select')
+            }
             this.selectedItem = e.target.id,
             e.target.classList.add('legal-select')
+        },
+
+        tagger : function(e){
+            window.console.log(e)
+            if(this.$el.querySelector(".legal-tag-select") != null){
+                this.$el.querySelector(".legal-tag-select").classList.add('legal-tag')
+                this.$el.querySelector('.legal-tag-select').classList.remove('legal-tag-select')
+            }
+            this.tagItem = e.target.id,
+            e.target.classList.add('legal-tag-select')
         }
       },
       computed : {
@@ -101,6 +129,10 @@ export default {
           },
       },
       mounted(){
+          if(this.$route.params.legal.tag != 0){
+                this.tagItem = this.$route.params.legal.tag
+                this.$refs["t"+this.tagItem].classList.add('legal-tag-select')
+          }
           axios.post('http://localhost:3000/legal/predict',{
                 content : this.$route.params.legal.content ,
             }).then((response) => {
@@ -201,6 +233,33 @@ export default {
         transition: 0.3s;
         border-radius: 24px; /* 5px rounded corners */ 
         text-align: center;
+        padding: 16px 32px 16px 32px;
+        margin: 32px 32px 32px 32px;
+    }
+
+     .legal-tag{
+        color: blue;
+        display: inline-block;
+        background-color: white;
+        z-index: 14;
+        box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2);
+        transition: 0.3s;
+        border-radius: 24px; /* 5px rounded corners */ 
+        text-align: right;
+        padding: 16px 32px 16px 32px;
+        margin: 32px 32px 32px 32px;
+    }
+
+
+    .legal-tag-select{
+        color: white;
+        display: inline-block;
+        background-color: blue;
+        z-index: 14;
+        box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2);
+        transition: 0.3s;
+        border-radius: 24px; /* 5px rounded corners */ 
+        text-align: right;
         padding: 16px 32px 16px 32px;
         margin: 32px 32px 32px 32px;
     }
