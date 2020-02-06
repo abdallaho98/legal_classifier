@@ -101,9 +101,9 @@ export default {
                     this.selectedItem = this.predictItem
                     this.$refs["b"+this.predictItem].classList.add('legal-select')
                 } else {
-                    this.predictItem = this.$route.params.legal.answer
-                    this.selectedItem = this.predictItem
-                    this.$refs["b"+this.predictItem].classList.add('legal-select')
+                    this.predictItem = response.data.predict
+                    this.selectedItem = this.$route.params.legal.answer
+                    this.$refs["b"+this.selectedItem].classList.add('legal-select')
                 }
                
             }).catch(err => alert(err))
