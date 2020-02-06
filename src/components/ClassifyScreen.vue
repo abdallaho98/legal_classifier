@@ -63,14 +63,22 @@ export default {
             }
         },
         sendAnswer : function(){
-            axios.post('http://localhost:3000/legal/answer',{
-                email : firebase.auth().currentUser.email,
-                answer : Number(this.selectedItem) ,
-                id : this.legal._id ,
+            axios.post('http://localhost:3000/predict/add',{
+                predict : this.predictItem,
+                answer : this.selectedItem ,
+                legal : this.legal._id ,
             }).then((response) => {
                 window.console.log(response.data)
-                this.$router.go(-1)
+                axios.post('http://localhost:3000/legal/answer',{
+                    email : firebase.auth().currentUser.email,
+                    answer : Number(this.selectedItem) ,
+                    id : this.legal._id ,
+                }).then((response) => {
+                    window.console.log(response.data)
+                    this.$router.go(-1)
+                }).catch(err => alert(err))
             }).catch(err => alert(err))
+
         },
         skip : function(){
                 this.$router.go(-1)
