@@ -6,11 +6,11 @@
             <h2 class="legal-type">{{type(legal.type)}}</h2>
         </div>
         <div>
-            <h2 @click="select" :id="1"  class="legal-select">{{classfication(1)}}</h2>
-            <h2 @click="select" :id="2"  class="legal-class">{{classfication(2)}}</h2>
-            <h2 @click="select" :id="3"  class="legal-class">{{classfication(3)}}</h2>
-            <h2 @click="select" :id="4"  class="legal-class">{{classfication(4)}}</h2>
-            <h2 @click="select" :id="5"  class="legal-class">{{classfication(5)}}</h2>
+            <h2 @click="select" :id="1" ref="b1" class="legal-class">{{classfication(1)}}</h2>
+            <h2 @click="select" :id="2" ref="b2" class="legal-class">{{classfication(2)}}</h2>
+            <h2 @click="select" :id="3" ref="b3" class="legal-class">{{classfication(3)}}</h2>
+            <h2 @click="select" :id="4" ref="b4" class="legal-class">{{classfication(4)}}</h2>
+            <h2 @click="select" :id="5" ref="b5" class="legal-class">{{classfication(5)}}</h2>
         </div>
 
         <h1 v-on:click="sendAnswer(3)" class="confirm">تاكيد</h1>
@@ -27,6 +27,7 @@ export default {
       name: 'ClassifyScreen',
       data() {
           return {
+              predictItem : 0,
               selectedItem : 1
           }
       },
@@ -79,7 +80,7 @@ export default {
             window.console.log(e)
             this.$el.querySelector(".legal-select").classList.add('legal-class')
             this.$el.querySelector('.legal-select').classList.remove('legal-select')
-            this.selectedItem = e.target.id
+            this.selectedItem = e.target.id,
             e.target.classList.add('legal-select')
         }
       },
@@ -90,6 +91,22 @@ export default {
           legal () {
               return this.$route.params.legal;
           },
+      },
+      mounted(){
+          axios.post('http://localhost:3000/legal/predict',{
+                content : this.$route.params.legal.content ,
+            }).then((response) => {
+                if(this.$route.params.legal.answer == 0){
+                    this.predictItem = response.data.predict
+                    this.selectedItem = this.predictItem
+                    this.$refs["b"+this.predictItem].classList.add('legal-select')
+                } else {
+                    this.predictItem = this.$route.params.legal.answer
+                    this.selectedItem = this.predictItem
+                    this.$refs["b"+this.predictItem].classList.add('legal-select')
+                }
+               
+            }).catch(err => alert(err))
       }
 }
 </script>
