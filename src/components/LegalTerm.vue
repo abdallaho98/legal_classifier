@@ -43,11 +43,11 @@ export default {
      name: 'LegalTerm',
      props: ['legals'],
      components:{
-         LegalItem , VueCsvImport
+         LegalItem , VueCsvImport 
      },
      data: function () {
         return {
-            data: null
+            data: null,
         }
      },
      created() {
