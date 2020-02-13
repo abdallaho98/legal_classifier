@@ -1,5 +1,5 @@
 <template>
-     <div class="legal-item" @click="open">
+     <div class="legal-item" >
          <div class="right">
             <h1>{{legal.number}} الماده</h1>
             <h2 class="text">{{legal.content}}</h2> 

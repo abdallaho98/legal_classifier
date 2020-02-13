@@ -26,28 +26,37 @@
                 <option value="14">{{type(14)}}</option>
             </select>
         </div>
-        <div  v-bind:key="legal.id" v-for="legal in data">
-            <LegalItem v-bind:legal="legal"/>
+        <div  v-bind:key="legal.id" v-for="(legal , index) in data">
+            <div>
+                <div @click="itemToShow = index"> <LegalItem v-show="itemToShow != index" v-bind:legal="legal"/></div>
+            </div>
+            <div v-show="itemToShow == index">
+                <ClassifyScreen v-bind:legal="legal"/>
+            </div>
         </div>
     </div>
 </template>
 
 <script>
 import LegalItem from './LegalItem'
+import ClassifyScreen from './ClassifyScreen'
 import axios from 'axios'
 import { VueCsvImport } from 'vue-csv-import'
 import firebase from 'firebase'
 import {config} from '../helpers/firebaseConfig'
+import { EventBus } from './event-bus.js'
+
 
 export default {
      name: 'LegalTerm',
      props: ['legals'],
      components:{
-         LegalItem , VueCsvImport 
+         LegalItem , VueCsvImport ,ClassifyScreen
      },
      data: function () {
         return {
             data: null,
+            itemToShow: -1
         }
      },
      created() {
@@ -68,6 +77,12 @@ export default {
         axios.get('http://localhost:3000/legal/').then((response) => {
             this.data = response.data.legals ; 
             }).catch(err => alert(err))
+
+        EventBus.$on('answer-send', response => {
+            this.data[this.itemToShow].answer = response.answer
+            this.data[this.itemToShow].answrer = {email : response.email}
+            this.itemToShow = -1
+        });
      } ,
      methods: {
         callApi: function (tag , type) {
@@ -90,10 +105,12 @@ export default {
             }
         },
         tag: function (e) {
+            this.itemToShow = -1
             const typeS =  this.$el.querySelector(".searchtype").value
             this.callApi(e.target.value,typeS)
         },
         typeSearch: function (e) {
+            this.itemToShow = -1
             const tagS =  this.$el.querySelector(".search").value
             this.callApi(tagS , e.target.value)
         },

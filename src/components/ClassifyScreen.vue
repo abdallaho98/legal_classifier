@@ -27,9 +27,11 @@
 
 import axios from 'axios'
 import firebase from 'firebase'
+import { EventBus } from './event-bus.js';
 
 export default {
       name: 'ClassifyScreen',
+      props: ['legal'],
       data() {
           return {
               predictItem : 0,
@@ -91,13 +93,15 @@ export default {
                     tag : this.tagItem
                 }).then((response) => {
                     window.console.log(response.data)
-                    this.$router.go(-1)
+                    const data = { email : firebase.auth().currentUser.email , answer : Number(this.selectedItem)  }
+                    EventBus.$emit('answer-send', data);
+                    //this.$router.go(-1)
                 }).catch(err => alert(err))
             }).catch(err => alert(err))
 
         },
         skip : function(){
-                this.$router.go(-1)
+                //this.$router.go(-1)
         },
 
         select : function(e){
@@ -124,25 +128,22 @@ export default {
           classifyRouteParams () {
               return this.$route.params;
           },
-          legal () {
-              return this.$route.params.legal;
-          },
       },
       mounted(){
-          if(this.$route.params.legal.tag != 0){
-                this.tagItem = this.$route.params.legal.tag
+          if(this.legal.tag != 0){
+                this.tagItem = this.legal.tag
                 this.$refs["t"+this.tagItem].classList.add('legal-tag-select')
           }
           axios.post('http://localhost:3000/legal/predict',{
-                content : this.$route.params.legal.content ,
+                content : this.legal.content ,
             }).then((response) => {
-                if(this.$route.params.legal.answer == 0){
+                if(this.legal.answer == 0){
                     this.predictItem = response.data.predict
                     this.selectedItem = this.predictItem
                     this.$refs["b"+this.predictItem].classList.add('legal-select')
                 } else {
                     this.predictItem = response.data.predict
-                    this.selectedItem = this.$route.params.legal.answer
+                    this.selectedItem = this.legal.answer
                     this.$refs["b"+this.selectedItem].classList.add('legal-select')
                 }
                
