@@ -43,7 +43,6 @@ import ClassifyScreen from './ClassifyScreen'
 import axios from 'axios'
 import { VueCsvImport } from 'vue-csv-import'
 import firebase from 'firebase'
-import {config} from '../helpers/firebaseConfig'
 import { EventBus } from './event-bus.js'
 
 
