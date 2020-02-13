@@ -83,6 +83,10 @@ export default {
             this.data[this.itemToShow].answrer = {email : response.email}
             this.itemToShow = -1
         });
+
+         EventBus.$on('skip-item', () => {
+            this.itemToShow = -1
+        });
      } ,
      methods: {
         callApi: function (tag , type) {

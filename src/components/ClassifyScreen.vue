@@ -102,6 +102,7 @@ export default {
         },
         skip : function(){
                 //this.$router.go(-1)
+                EventBus.$emit('skip-item', -1);
         },
 
         select : function(e){
