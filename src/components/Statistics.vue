@@ -22,7 +22,7 @@ export default {
         return {
             data: null ,
             exportCsv: null,
-            url : 'http://localhost:3000',
+            url : 'https://legal-classifier-backend.herokuapp.com',
         }
      },
     mounted(){
