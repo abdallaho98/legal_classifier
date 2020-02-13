@@ -6,6 +6,7 @@
 
 <script>
 //import LegalTerm from './components/LegalTerm';
+import {config} from '../helpers/firebaseConfig'
 
 export default {
   name: 'app',
