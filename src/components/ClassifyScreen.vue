@@ -36,7 +36,8 @@ export default {
           return {
               predictItem : 0,
               selectedItem : 0,
-              tagItem : 0
+              tagItem : 0,
+              url : 'http://legal-classifier-backend.herokuapp.com'
           }
       },
        methods : {
@@ -80,13 +81,13 @@ export default {
             }
         },
         sendAnswer : function(){
-            axios.post('http://localhost:3000/predict/add',{
+            axios.post(`${this.url}/predict/add`,{
                 predict : this.predictItem,
                 answer : this.selectedItem ,
                 legal : this.legal._id ,
             }).then((response) => {
                 window.console.log(response.data)
-                axios.post('http://localhost:3000/legal/answer',{
+                axios.post(`${this.url}/legal/answer`,{
                     email : firebase.auth().currentUser.email,
                     answer : Number(this.selectedItem) ,
                     id : this.legal._id ,
@@ -135,7 +136,7 @@ export default {
                 this.tagItem = this.legal.tag
                 this.$refs["t"+this.tagItem].classList.add('legal-tag-select')
           }
-          axios.post('http://localhost:3000/legal/predict',{
+          axios.post(`${this.url}/legal/predict`,{
                 content : this.legal.content ,
             }).then((response) => {
                 if(this.legal.answer == 0){

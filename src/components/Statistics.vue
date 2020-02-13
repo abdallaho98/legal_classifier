@@ -21,14 +21,15 @@ export default {
     data: function () {
         return {
             data: null ,
-            exportCsv: null
+            exportCsv: null,
+            url : 'http://localhost:3000',
         }
      },
     mounted(){
-        axios.get('http://localhost:3000/users/statistics').then((response) => {
+        axios.get(`${this.url}/users/statistics`).then((response) => {
             this.data = response.data.stats ; 
             }).catch(err => alert(err))
-        axios.get('http://localhost:3000/legal/export').then((response) => {
+        axios.get(`${this.url}/legal/export`).then((response) => {
             this.exportCsv = response.data.legals ; 
             }).catch(err => alert(err))
      } ,

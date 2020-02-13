@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="left">
-            <vue-csv-import :catch="error" :callback="reload" :headers="true" url="http://localhost:3000/legal/addall" :map-fields="{content: 'content', number: 'number' , type : 'type'}"></vue-csv-import>
+            <vue-csv-import :catch="error" :callback="reload" :headers="true" url="http://legal-classifier-backend.herokuapp.com/legal/addall" :map-fields="{content: 'content', number: 'number' , type : 'type'}"></vue-csv-import>
         </div>
         <div class="right">
             <button @click="stats" class="button" style="vertical-align:middle"><span>الاحصائيات </span></button>
@@ -56,14 +56,16 @@ export default {
      data: function () {
         return {
             data: null,
-            itemToShow: -1
+            itemToShow: -1,
+            url : 'http://legal-classifier-backend.herokuapp.com',
+            url_add_all : `${this.url}/legal/addall`
         }
      },
      created() {
         firebase.initializeApp(config);
         firebase.auth().onAuthStateChanged(user =>  {
             if (user) {
-                axios.post('http://localhost:3000/users/register',{
+                axios.post(`${this.url}/users/register`,{
                     email : firebase.auth().currentUser.email,
                 }).then((response) => {
                     window.console.log(response.data)
@@ -74,7 +76,7 @@ export default {
         });
     },
      mounted(){
-        axios.get('http://localhost:3000/legal/').then((response) => {
+        axios.get(`${this.url}/legal/`).then((response) => {
             this.data = response.data.legals ; 
             }).catch(err => alert(err))
 
@@ -91,19 +93,19 @@ export default {
      methods: {
         callApi: function (tag , type) {
             if(tag.length > 0 && type.length > 0) {
-                axios.get(`http://localhost:3000/legal/?type=${type}&tag=${tag}`).then((response) => {
+                axios.get(`${this.url}/legal/?type=${type}&tag=${tag}`).then((response) => {
                 this.data = response.data.legals ; 
                 }).catch(err => alert(err))
             } else if(tag.length == 0 && type.length > 0) {
-                axios.get(`http://localhost:3000/legal/?type=${type}`).then((response) => {
+                axios.get(`${this.url}/legal/?type=${type}`).then((response) => {
                 this.data = response.data.legals ; 
                 }).catch(err => alert(err))
             } else if(tag.length > 0 && type.length == 0) {
-                axios.get(`http://localhost:3000/legal/?tag=${tag}`).then((response) => {
+                axios.get(`${this.url}/legal/?tag=${tag}`).then((response) => {
                 this.data = response.data.legals ; 
                 }).catch(err => alert(err))
             } else {
-                axios.get(`http://localhost:3000/legal/`).then((response) => {
+                axios.get(`${this.url}/legal/`).then((response) => {
                 this.data = response.data.legals ; 
                 }).catch(err => alert(err))
             }
