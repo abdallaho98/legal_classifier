@@ -37,7 +37,7 @@ export default {
               predictItem : 0,
               selectedItem : 0,
               tagItem : 0,
-              url : 'http://legal-classifier-backend.herokuapp.com'
+              url : 'https://legal-classifier-backend.herokuapp.com'
           }
       },
        methods : {

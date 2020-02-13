@@ -11,6 +11,9 @@ export default {
   name: 'app',
   components: {
   },
+  created(){
+      firebase.initializeApp(config);
+  }
 }
 </script>
 

@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="left">
-            <vue-csv-import :catch="error" :callback="reload" :headers="true" url="http://legal-classifier-backend.herokuapp.com/legal/addall" :map-fields="{content: 'content', number: 'number' , type : 'type'}"></vue-csv-import>
+            <vue-csv-import :catch="error" :callback="reload" :headers="true" url="https://legal-classifier-backend.herokuapp.com/legal/addall" :map-fields="{content: 'content', number: 'number' , type : 'type'}"></vue-csv-import>
         </div>
         <div class="right">
             <button @click="stats" class="button" style="vertical-align:middle"><span>الاحصائيات </span></button>
@@ -57,12 +57,11 @@ export default {
         return {
             data: null,
             itemToShow: -1,
-            url : 'http://legal-classifier-backend.herokuapp.com',
+            url : 'https://legal-classifier-backend.herokuapp.com',
             url_add_all : `${this.url}/legal/addall`
         }
      },
      created() {
-        firebase.initializeApp(config);
         firebase.auth().onAuthStateChanged(user =>  {
             if (user) {
                 axios.post(`${this.url}/users/register`,{
