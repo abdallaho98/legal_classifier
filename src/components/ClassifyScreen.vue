@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="legal-item">
+        <div class="legal-item" @click="skip">
             <h1>{{legal.number}} الماده</h1>
             <h2 class="text">{{legal.content}}</h2> 
             <h2 class="legal-type">{{type(legal.type)}}</h2>
@@ -97,8 +97,8 @@ export default {
                     const data = { email : firebase.auth().currentUser.email , answer : Number(this.selectedItem)  }
                     EventBus.$emit('answer-send', data);
                     //this.$router.go(-1)
-                }).catch(err => alert(err))
-            }).catch(err => alert(err))
+                })
+            })
 
         },
         skip : function(){
@@ -149,7 +149,7 @@ export default {
                     this.$refs["b"+this.selectedItem].classList.add('legal-select')
                 }
                
-            }).catch(err => alert(err))
+            })
       }
 }
 </script>

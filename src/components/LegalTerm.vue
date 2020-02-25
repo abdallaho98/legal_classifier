@@ -67,7 +67,7 @@ export default {
                     email : firebase.auth().currentUser.email,
                 }).then((response) => {
                     window.console.log(response.data)
-                }).catch(err => alert(err))
+                })
             } else {
                 this.$router.push( { path : '/auth' ,name : 'auth'})
             }
@@ -76,7 +76,7 @@ export default {
      mounted(){
         axios.get(`${this.url}/legal/`).then((response) => {
             this.data = response.data.legals ; 
-            }).catch(err => alert(err))
+            })
 
         EventBus.$on('answer-send', response => {
             this.data[this.itemToShow].answer = response.answer
@@ -93,19 +93,19 @@ export default {
             if(tag.length > 0 && type.length > 0) {
                 axios.get(`${this.url}/legal/?type=${type}&tag=${tag}`).then((response) => {
                 this.data = response.data.legals ; 
-                }).catch(err => alert(err))
+                })
             } else if(tag.length == 0 && type.length > 0) {
                 axios.get(`${this.url}/legal/?type=${type}`).then((response) => {
                 this.data = response.data.legals ; 
-                }).catch(err => alert(err))
+                })
             } else if(tag.length > 0 && type.length == 0) {
                 axios.get(`${this.url}/legal/?tag=${tag}`).then((response) => {
                 this.data = response.data.legals ; 
-                }).catch(err => alert(err))
+                })
             } else {
                 axios.get(`${this.url}/legal/`).then((response) => {
                 this.data = response.data.legals ; 
-                }).catch(err => alert(err))
+                })
             }
         },
         tag: function (e) {
