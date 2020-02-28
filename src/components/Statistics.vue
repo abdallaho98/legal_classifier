@@ -47,16 +47,16 @@ export default {
     mounted(){
         axios.get(`${this.url}/users/statistics`).then((response) => {
             this.data = response.data.stats ; 
-            }).catch(err => alert(err))
+            })
         axios.get(`${this.url}/legal/type`).then((response) => {
             this.types = response.data.stats ; 
-            }).catch(err => alert(err))
+            })
         axios.get(`${this.url}/legal/class`).then((response) => {
             this.classess = response.data.stats ; 
-            }).catch(err => alert(err))
+            })
         axios.get(`${this.url}/legal/export`).then((response) => {
             this.exportCsv = response.data.legals ; 
-            }).catch(err => alert(err))
+            })
      } ,
     methods : {
         type: function(i){
