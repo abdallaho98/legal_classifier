@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="left">
-            <vue-csv-import :catch="error" :callback="reload" :headers="true" url="https://legal-classifier-backend.herokuapp.com/legal/addall" :map-fields="{content: 'content', number: 'number' , type : 'type'}"></vue-csv-import>
+            <vue-csv-import :catch="error" :callback="reload" :headers="true" url="http://legal-classifier-backend.herokuapp.com/legal/addall" :map-fields="{content: 'content', number: 'number' , type : 'type'}"></vue-csv-import>
         </div>
         <div class="right">
             <button @click="stats" class="button" style="vertical-align:middle"><span>الاحصائيات </span></button>
@@ -56,7 +56,7 @@ export default {
         return {
             data: null,
             itemToShow: -1,
-            url : 'https://legal-classifier-backend.herokuapp.com',
+            url : 'http://legal-classifier-backend.herokuapp.com',
             url_add_all : `${this.url}/legal/addall`
         }
      },
@@ -81,6 +81,14 @@ export default {
         EventBus.$on('answer-send', response => {
             this.data[this.itemToShow].answer = response.answer
             this.data[this.itemToShow].answrer = {email : response.email}
+            this.data[this.itemToShow].signaler = 0
+            this.itemToShow = -1
+        });
+
+         EventBus.$on('signal-item', () => {
+            this.data[this.itemToShow].answer = 0
+            this.data[this.itemToShow].answrer = null
+            this.data[this.itemToShow].signaler = 1
             this.itemToShow = -1
         });
 

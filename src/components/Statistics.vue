@@ -8,8 +8,25 @@
                 <div v-bind:key="stat.id" v-for="stat in data">
                     <H1 class="right">{{stat.email}}</H1>
                     <H1 class="left">{{stat.nb}}</H1>
+                </div>
             </div>
-        </div>
+
+            <div class="block align_left">
+                <H1 class="right">Type</H1>
+                <H1 class="left">Nb</H1>
+                <div v-bind:key="stat.id" v-for="(stat , index) in types">
+                    <H1 class="right">{{type(index)}}</H1>
+                    <H1 class="left">{{stat}}</H1>
+                </div>
+            </div>
+            <div class="block align_left">
+                <H1 class="right">Class</H1>
+                <H1 class="left">Nb</H1>
+                <div v-bind:key="stat.id" v-for="(stat , index) in classess">
+                    <H1 class="right">{{classfication(index)}}</H1>
+                    <H1 class="left">{{stat}}</H1>
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -21,18 +38,58 @@ export default {
     data: function () {
         return {
             data: null ,
+            types: null ,
+            classess: null,
             exportCsv: null,
-            url : 'https://legal-classifier-backend.herokuapp.com',
+            url : 'http://legal-classifier-backend.herokuapp.com',
         }
      },
     mounted(){
         axios.get(`${this.url}/users/statistics`).then((response) => {
             this.data = response.data.stats ; 
             }).catch(err => alert(err))
+        axios.get(`${this.url}/legal/type`).then((response) => {
+            this.types = response.data.stats ; 
+            }).catch(err => alert(err))
+        axios.get(`${this.url}/legal/class`).then((response) => {
+            this.classess = response.data.stats ; 
+            }).catch(err => alert(err))
         axios.get(`${this.url}/legal/export`).then((response) => {
             this.exportCsv = response.data.legals ; 
             }).catch(err => alert(err))
      } ,
+    methods : {
+        type: function(i){
+            switch(i){
+                case 1 : return 'القانون المدني';
+                case 2 : return 'قانون الإجراءات المدنية والإدارية';
+                case 3 : return 'القانون التجاري';
+                case 4 : return 'قانون الأسرة';
+                case 5 : return 'قانون الجنسية الجزائرية';
+                case 6 : return 'قانون العقوبات';
+                case 7 : return 'قانون الإجراءات الجزائية';
+                case 8 : return 'قانون تنظيم السجون وإعادة الإدماج الإجتماعي للمحبوسين';
+                case 9 : return 'قانون القضاء العسكري';
+                case 10 : return 'قانون المعاشات العسكرية';
+                case 11 : return 'قانون الانتخابات';
+                case 12 : return 'قانون الجماعات الإقليمية';
+                case 13 : return 'قانون الصفقات العمومية و تفويضات المرفق العام';
+                case 14 : return 'قانون الإعـلام';
+                default : return 'قوانين اخرى';
+            }
+        },
+        classfication: function(i){
+            switch(i){
+                case 0 : return '';
+                case 1 : return 'حق';
+                case 2 : return 'مسموح به';
+                case 3 : return 'واجب';
+                case 4 : return 'ممنوع';
+                case 5 : return 'لاشئ';
+                default : return '';
+            }
+        },
+    }
 }
 </script>
 <style scoped>

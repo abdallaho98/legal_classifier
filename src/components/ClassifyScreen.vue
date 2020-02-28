@@ -20,6 +20,7 @@
 
         <h1 v-on:click="sendAnswer(3)" class="confirm">تاكيد</h1>
         <h1 v-on:click="skip" class="skip">تخطي</h1>
+        <h1 v-on:click="signaler" class="signaler">الإبلاغ عن خطأ</h1>
 
     </div>
 </template>
@@ -37,7 +38,7 @@ export default {
               predictItem : 0,
               selectedItem : 0,
               tagItem : 0,
-              url : 'https://legal-classifier-backend.herokuapp.com'
+              url : 'http://legal-classifier-backend.herokuapp.com'
           }
       },
        methods : {
@@ -105,6 +106,17 @@ export default {
                 //this.$router.go(-1)
                 EventBus.$emit('skip-item', -1);
         },
+
+        signaler : function(){
+                axios.post(`${this.url}/legal/signaler`,{
+                    id : this.legal._id ,
+                }).then((response) => {
+                    window.console.log(response.data)
+                    EventBus.$emit('signal-item', -1);
+                })
+            
+        },
+
 
         select : function(e){
             window.console.log(e)
@@ -231,6 +243,19 @@ export default {
         color: white;
         display: inline-block;
         background-color: red;
+        z-index: 7;
+        box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2);
+        transition: 0.3s;
+        border-radius: 24px; /* 5px rounded corners */ 
+        text-align: center;
+        padding: 16px 32px 16px 32px;
+        margin: 32px 32px 32px 32px;
+    }
+    .signaler{
+        width: 150vh;
+        color: white;
+        display: inline-block;
+        background-color: rgb(255,165,0);
         z-index: 7;
         box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2);
         transition: 0.3s;

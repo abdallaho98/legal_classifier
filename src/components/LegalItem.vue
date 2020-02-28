@@ -6,7 +6,7 @@
             <h2  class="legal-type">{{type(legal.type)}}</h2>
          </div>
          <div class="left">
-            <img class="padding" :src="legal.answrer != null ? marked : unmarked" alt="check" border="0" >
+            <img class="padding" :src="legal.signaler == 1 ? error : legal.answrer != null ? marked : unmarked" alt="check" border="0" >
             <h2 class="green">{{classfication(legal.answer)}}</h2>
             <h2 class="mail" v-if="legal.answrer != null" >{{legal.answrer != null ? legal.answrer.email : ''}}</h2>
          </div>
@@ -56,7 +56,8 @@ export default {
       data: function() {
           return{
             marked: 'https://i.ibb.co/dM333b0/check.png',
-            unmarked: 'https://i.ibb.co/CKXdZCQ/close.png'
+            unmarked: 'https://i.ibb.co/CKXdZCQ/close.png',
+            error: 'https://i.ibb.co/ZV28Xtx/flats.png'
           }
       },
 }
