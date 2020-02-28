@@ -56,7 +56,7 @@ export default {
         return {
             data: null,
             itemToShow: -1,
-            url : 'http://legal-classifier-backend.herokuapp.com',
+            url : 'https://legal-classifier-backend.herokuapp.com',
             url_add_all : `${this.url}/legal/addall`
         }
      },

@@ -41,7 +41,7 @@ export default {
             types: null ,
             classess: null,
             exportCsv: null,
-            url : 'http://legal-classifier-backend.herokuapp.com',
+            url : 'https://legal-classifier-backend.herokuapp.com',
         }
      },
     mounted(){
